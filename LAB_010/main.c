@@ -8,6 +8,8 @@
 #include "Library/GPIO.h"
 #include "Library/Timer.h"
 #include "Library/PWM.h"
+#include "Library/Ultrasonic.h"
+#include "Library/LED.h"
 
 
 #define IOCON_GPIO1		*((volatile uint32_t*)(0x4002C0DC))  //P6_p1.23
@@ -57,7 +59,7 @@ void motor_command(char* command){
 	}else if(strcmp(command, "RIGHT\r\n") == 0){
 		//TURN RIGHT
 		//TODO: Implement Blinking PWM
-		turn_right();
+		turn_right(0);
 		
 		PWM_Write(100,1);
 		PWM_Write(100,2);
@@ -68,7 +70,7 @@ void motor_command(char* command){
 	}else if(strcmp(command, "LEFT\r\n") == 0){
 		//TURN LEFT
 		//TODO: Implement Blinking PWM
-		turn_left();
+		turn_left(0);
 		
 		PWM_Write(100,1);
 		PWM_Write(100,2);
@@ -109,7 +111,7 @@ void init() {
 	LED_RIGHT_BACKWARD_On();
 	LED_LEFT_FORWARD_On();
 	LED_LEFT_BACKWARD_On();
-	
+	EMBEDLED_Init();
 	PWM_Init();
 	
 	
@@ -119,6 +121,11 @@ void init() {
 	ADC_Start();
 	
 	HM10_Init();
+	
+	Ultrasonic_Init();
+	Ultrasonic_Trigger_Timer_Init();
+	Ultrasonic_Capture_Timer_Init();
+	Ultrasonic_Start_Trigger_Timer();
 	
 	//motor_command("FORWARD\r\n");
 	
@@ -130,9 +137,27 @@ uint32_t potans_value = 0;
 uint32_t ldr_value = 0;
 uint32_t ldr_value_sum = 0;
 uint32_t count=0;
+uint32_t distance =0;
+uint32_t previous_distance =0;
 char temp;
 
 void update() {
+	
+	distance = ultrasonic_get_distance();
+	if(distance >= 400){
+	distance = previous_distance;
+	}
+	previous_distance = distance;
+	if (distance <10){
+		EMBEDLED_ALL_Off();
+		EMBEDLED1_On();
+		EMBEDLED3_On();
+		if(AUTO_MODE)
+			turn_right(1);
+	}else{
+		EMBEDLED_ALL_Off();
+	}
+	
 	potans_value = ADC_GetPotans();
 	
 	PWM_Write(potans_value/40, 2);
@@ -226,10 +251,12 @@ void update() {
 }
 
 int main() {
+	
 		init();
 	
 	while(1) {
 		update();
+
 	}
 }
 
