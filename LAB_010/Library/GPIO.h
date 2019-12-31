@@ -103,9 +103,9 @@ void go_forward(void);
 
 void go_backward(void);
 
-void turn_right(void);
+void turn_right(uint32_t);
 
-void turn_left(void);
+void turn_left(uint32_t);
 
 void stop(void);
 

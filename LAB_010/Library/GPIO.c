@@ -168,22 +168,45 @@ void go_backward(){
 	
 }
 
-void turn_right(){
+void turn_right(uint32_t maneuver){
+	uint32_t temp ;
+	temp = 0;
 	IN1A_On();
 	IN2A_Off();
-	
 	IN3B_Off();
 	IN4B_On();
-	
+	LED_RIGHT_FORWARD_On();
 	LED_RIGHT_BACKWARD_On();
 	LED_LEFT_FORWARD_Off();
-	LED_RIGHT_FORWARD_On();
 	LED_LEFT_BACKWARD_Off();
+	if(maneuver == 0){
+			//This corresponds to test maneuver
+		for(;temp<1500000;temp++){
+			if((temp/100000)%2==0){
+				LED_RIGHT_FORWARD_On();
+				LED_RIGHT_BACKWARD_On();
+			}
+			else{
+				LED_RIGHT_FORWARD_Off();
+				LED_RIGHT_BACKWARD_Off();
+			}
+		}
+		stop();
+	}else if(maneuver == 1){
+		for(;temp<150000;temp++){
+			;
+		}
+		go_forward();
+	}
+	
 	
 }
 
 
-void turn_left(){
+void turn_left(uint32_t maneuver){
+	uint32_t temp ;
+	temp = 0;
+	
 	IN1A_Off();
 	IN2A_On();
 	
@@ -191,9 +214,24 @@ void turn_left(){
 	IN4B_Off();
 	
 	LED_RIGHT_BACKWARD_Off();
-	LED_LEFT_FORWARD_On();
 	LED_RIGHT_FORWARD_Off();
+	
+	LED_LEFT_FORWARD_On();
 	LED_LEFT_BACKWARD_On();
+	
+	for(;temp<1500000;temp++){
+		if((temp/100000)%2==0){
+			LED_LEFT_FORWARD_On();
+			LED_LEFT_BACKWARD_On();
+		}
+		else{
+			LED_LEFT_FORWARD_Off();
+			LED_LEFT_BACKWARD_Off();
+		}
+	}
+	stop();
+	
+	
 }
 
 

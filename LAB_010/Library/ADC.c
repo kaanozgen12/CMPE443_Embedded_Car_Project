@@ -53,8 +53,9 @@ void ADC_Init() {
 	ADC->CR |= 1<<0;
 	
 	//Enable interrupt for corresponding pin.
+	ADC->INTEN |= 1<<3;
 	ADC->INTEN |= 1<<2;
-	ADC->INTEN |= 1<<1;
+	//ADC->INTEN |= 1<<1;Burasi artik ultrasonic için
 	ADC->INTEN |= 1<<0;
 	//Enable ADC_IRQn (Interrupt Request).
 	NVIC_EnableIRQ(ADC_IRQn);
@@ -88,10 +89,10 @@ void ADC_IRQHandler() {
 	//Write the converted data (only the converted data) to ADC_	
 	if((ADC->CR & 1<<24) == 0){
 		ADC->CR |= 1<<24;
-		counter = (counter+1)%3;
+		counter = (counter+1)%4;
 	}
 	
-	if(counter == 1){
+	if(counter == 3){
 		ADC_Left = ADC->DR[counter]>>4 & 0xFFF;
 	}else if(counter == 2){
 		ADC_Right = ADC->DR[counter]>>4 & 0xFFF;
@@ -100,7 +101,7 @@ void ADC_IRQHandler() {
 	}
 		
 	ADC->CR &= ~(0xFF);
-	ADC->CR |= 1<<((counter+1)%3);
+	ADC->CR |= 1<<((counter+1)%4);
 	
 	
 	
