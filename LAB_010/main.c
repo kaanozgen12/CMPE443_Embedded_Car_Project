@@ -193,8 +193,8 @@ void update() {
 			}else{
 				if(TEST_MODE){
 					motor_command(HM10Buffer);
-					HM10_ClearBuffer();
 				}
+				HM10_ClearBuffer();
 			}
 		}
 		
@@ -203,12 +203,16 @@ void update() {
 			if(HM10NewDataAvailable){
 					HM10NewDataAvailable = 0;
 				if(strcmp(HM10Buffer, "TEST\r\n") == 0){
+					
 					TEST_MODE = 1;
 					AUTO_MODE = 0;
 					HM10_SendCommand("TESTING\r\n");
-				}else if(strcmp(HM10Buffer, "START\r\n") == 0){
+					
+				}else if(!START && strcmp(HM10Buffer, "START\r\n") == 0){
 				  START = 1;
 					HM10_SendCommand("START\r\n");
+				}else{
+					HM10_ClearBuffer();
 				}
 			}else{
 				if(START){

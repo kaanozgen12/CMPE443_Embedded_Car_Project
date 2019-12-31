@@ -1,6 +1,6 @@
 Dependencies for Project 'LAB_010', Target 'NXP LPC4088': (DO NOT MODIFY !)
 CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
-F (.\main.c)(0x5E0B24BF)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\Device\LPC4088FET208-I.\RTE\_NXP_LPC4088-IC:\Users\aom\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\aom\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DCORE_M4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x5E0B2E88)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\Device\LPC4088FET208-I.\RTE\_NXP_LPC4088-IC:\Users\aom\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\aom\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DCORE_M4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Users\aom\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include\LPC407x_8x_177x_8x.h)(0x539FDB22)
 I (C:\Users\aom\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm4.h)(0x5D25D706)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9B1868)
@@ -19,7 +19,7 @@ I (Library/GPIO.h)(0x5E092AB6)
 I (Library/Timer.h)(0x5E0885BE)
 I (Library/PWM.h)(0x5E09157D)
 F (.\Library\SystemStructures.h)(0x5E0885BE)()
-F (.\Library\ADC.c)(0x5E0A7D80)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\Device\LPC4088FET208-I.\RTE\_NXP_LPC4088-IC:\Users\aom\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\aom\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DCORE_M4-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
+F (.\Library\ADC.c)(0x5E0B2906)(-c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections-I.\RTE\Device\LPC4088FET208-I.\RTE\_NXP_LPC4088-IC:\Users\aom\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\aom\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DCORE_M4-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
 I (Library\ADC.h)(0x5E0A7DCA)
 I (C:\Users\aom\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include\LPC407x_8x_177x_8x.h)(0x539FDB22)
 I (C:\Users\aom\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm4.h)(0x5D25D706)
