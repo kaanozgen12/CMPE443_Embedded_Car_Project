@@ -10,6 +10,7 @@
 #include "Library/PWM.h"
 #include "Library/Ultrasonic.h"
 #include "Library/LED.h"
+#include "Library/External.h"
 
 
 #define IOCON_GPIO1		*((volatile uint32_t*)(0x4002C0DC))  //P6_p1.23
@@ -25,7 +26,16 @@ uint32_t AUTO_MODE = 0;
 uint32_t START = 0;
 uint32_t FINISH= 0;
 
+uint32_t spin_counter=0;
 
+void EINT0_IRQHandler() {
+	//Clear interrupt for EINT0
+	//NVIC_ClearPendingIRQ(EINT0_IRQn);
+	
+	spin_counter = spin_counter+1;
+	EXT->EXTINT |= 1<<0;
+	
+}
 
 
 const char empten[255]= {'\0'};
@@ -126,7 +136,7 @@ void init() {
 	Ultrasonic_Trigger_Timer_Init();
 	Ultrasonic_Capture_Timer_Init();
 	Ultrasonic_Start_Trigger_Timer();
-	
+	External_Init();
 	//motor_command("FORWARD\r\n");
 	
 	
@@ -154,16 +164,18 @@ void update() {
 				PWM_Write(40,2);
 				turn_right(1);
 			}
-		}else if((distance >15)){
+		}else if((distance >25)){
 			if(AUTO_MODE){
 				PWM_Write(40,1);
 				PWM_Write(40,2);
 				turn_left(1);
 			}
 		}else{
+			if(AUTO_MODE){
 				PWM_Write(100,1);
 				PWM_Write(100,2);
 				go_forward();
+			}
 		}
 	
 	potans_value = ADC_GetPotans();
