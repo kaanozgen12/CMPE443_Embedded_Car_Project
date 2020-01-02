@@ -1,4 +1,5 @@
 #include "GPIO.h"
+#include "PWM.h"
 
 void GPIO_DIR_Write(GPIO_TypeDef* PORT,uint32_t MASK,uint8_t value) {
 	if(value == 0) {
@@ -80,7 +81,7 @@ void LED_LEFT_BACKWARD_Off() {
 
 void IN1A_Off() {
 	//Write code for turning off LED_RIGHT_FORWARD.
-	GPIO_PIN_Write(IN1A_PORT,IN2A_MASK,LOW);
+	GPIO_PIN_Write(IN1A_PORT,IN1A_MASK,LOW);
 }
 
 void IN2A_Off() {
@@ -138,51 +139,109 @@ void IN4B_On() {
 	GPIO_PIN_Write(IN4B_PORT,IN4B_MASK,HIGH);
 }
 
-void go_forward(){
+void go_backward(){
 	IN1A_On();
 	IN2A_Off();
 	
 	IN3B_On();
 	IN4B_Off();
-	
-	LED_RIGHT_FORWARD_On();
-	LED_LEFT_FORWARD_On();
-	
-	LED_RIGHT_BACKWARD_Off();
-	LED_LEFT_BACKWARD_Off();
-	
-}
-
-void go_backward(){
-	IN1A_Off();
-	IN2A_On();
-	
-	IN3B_Off();
-	IN4B_On();
+	PWM_Write(100,1);
+	PWM_Write(100,2);
 	
 	LED_RIGHT_BACKWARD_On();
 	LED_LEFT_BACKWARD_On();
 	
-	LED_LEFT_FORWARD_Off();
 	LED_RIGHT_FORWARD_Off();
+	LED_LEFT_FORWARD_Off();
 	
 }
+
+void go_forward(){
+
+	//LEFT FORWARD
+
+	IN1A_Off();
+	IN2A_On();
+	//RIGHT FORWARD
+	IN3B_Off();
+	IN4B_On();
+	PWM_Write(100,1);
+	PWM_Write(100,2);
+	
+	LED_RIGHT_BACKWARD_Off();
+	LED_LEFT_BACKWARD_Off();
+	
+	LED_LEFT_FORWARD_On();
+	LED_RIGHT_FORWARD_On();
+	
+}
+
+void turn_left(uint32_t maneuver){
+	uint32_t temp ;
+	temp = 0;
+	//LEFT BACKWARD
+	IN1A_On();
+	IN2A_Off();
+	//RIGHT FORWARD
+	IN3B_Off();
+	IN4B_On();
+	
+
+	PWM_Write(100,1);
+	PWM_Write(100,2);
+	
+	LED_RIGHT_FORWARD_Off();
+	LED_RIGHT_BACKWARD_Off();
+	LED_LEFT_FORWARD_On();
+	LED_LEFT_BACKWARD_On();
+	if(maneuver == 0){
+			//This corresponds to test maneuver
+		for(;temp<500000;temp++){
+			if((temp/10000)%2==0){
+				LED_LEFT_FORWARD_Off();
+				LED_LEFT_BACKWARD_Off();
+			}
+			else{
+				LED_LEFT_FORWARD_On();
+				LED_LEFT_BACKWARD_On();
+			}
+		}
+		stop();
+	}else if(maneuver == 1){
+		IN3B_On();
+		IN4B_On();
+		for(;temp<15000;temp++){
+			;
+		}
+		go_forward();
+	}
+	
+	
+}
+
 
 void turn_right(uint32_t maneuver){
 	uint32_t temp ;
 	temp = 0;
-	IN1A_On();
-	IN2A_Off();
-	IN3B_Off();
-	IN4B_On();
-	LED_RIGHT_FORWARD_On();
+		PWM_Write(100,1);
+	PWM_Write(100,2);
+	//LEFT FORWARD
+	IN1A_Off();
+	IN2A_On();
+	//RIGHT BACKWARD
+	IN3B_On();
+	IN4B_Off();	
+	
 	LED_RIGHT_BACKWARD_On();
+	LED_RIGHT_FORWARD_On();
+	
 	LED_LEFT_FORWARD_Off();
 	LED_LEFT_BACKWARD_Off();
+	
 	if(maneuver == 0){
 			//This corresponds to test maneuver
-		for(;temp<1500000;temp++){
-			if((temp/100000)%2==0){
+		for(;temp<500000;temp++){
+			if((temp/10000)%2==0){
 				LED_RIGHT_FORWARD_On();
 				LED_RIGHT_BACKWARD_On();
 			}
@@ -193,7 +252,9 @@ void turn_right(uint32_t maneuver){
 		}
 		stop();
 	}else if(maneuver == 1){
-		for(;temp<150000;temp++){
+		IN1A_On();
+		IN2A_On();
+		for(;temp<15000;temp++){
 			;
 		}
 		go_forward();
@@ -203,45 +264,14 @@ void turn_right(uint32_t maneuver){
 }
 
 
-void turn_left(uint32_t maneuver){
-	uint32_t temp ;
-	temp = 0;
-	
-	IN1A_Off();
+void stop(){
+	IN1A_On();
 	IN2A_On();
 	
 	IN3B_On();
-	IN4B_Off();
-	
-	LED_RIGHT_BACKWARD_Off();
-	LED_RIGHT_FORWARD_Off();
-	
-	LED_LEFT_FORWARD_On();
-	LED_LEFT_BACKWARD_On();
-	
-	for(;temp<1500000;temp++){
-		if((temp/100000)%2==0){
-			LED_LEFT_FORWARD_On();
-			LED_LEFT_BACKWARD_On();
-		}
-		else{
-			LED_LEFT_FORWARD_Off();
-			LED_LEFT_BACKWARD_Off();
-		}
-	}
-	stop();
-	
-	
-}
-
-
-void stop(){
-	IN1A_Off();
-	IN2A_Off();
-	
-	IN3B_Off();
-	IN4B_Off();
-	
+	IN4B_On();
+	PWM_Write(0,1);
+	PWM_Write(0,2);
 	LED_RIGHT_BACKWARD_Off();
 	LED_LEFT_FORWARD_Off();
 	LED_RIGHT_FORWARD_Off();
