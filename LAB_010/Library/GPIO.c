@@ -1,5 +1,6 @@
 #include "GPIO.h"
 #include "PWM.h"
+#include "External.h"
 
 void GPIO_DIR_Write(GPIO_TypeDef* PORT,uint32_t MASK,uint8_t value) {
 	if(value == 0) {
@@ -194,19 +195,24 @@ void turn_left(uint32_t maneuver){
 	LED_RIGHT_BACKWARD_Off();
 	LED_LEFT_FORWARD_On();
 	LED_LEFT_BACKWARD_On();
+	spin_counter=0;
 	if(maneuver == 0){
+		while(spin_counter<11){
 			//This corresponds to test maneuver
-		for(;temp<500000;temp++){
-			if((temp/10000)%2==0){
-				LED_LEFT_FORWARD_Off();
-				LED_LEFT_BACKWARD_Off();
+			for(;temp<500000;temp++){
+				if((temp/100000)%2==0){
+					LED_LEFT_FORWARD_Off();
+					LED_LEFT_BACKWARD_Off();
+				}
+				else{
+					LED_LEFT_FORWARD_On();
+					LED_LEFT_BACKWARD_On();
+				}
 			}
-			else{
-				LED_LEFT_FORWARD_On();
-				LED_LEFT_BACKWARD_On();
-			}
+		
 		}
 		stop();
+		spin_counter=0;
 	}else if(maneuver == 1){
 		IN3B_On();
 		IN4B_On();
@@ -231,7 +237,7 @@ void turn_right(uint32_t maneuver){
 	//RIGHT BACKWARD
 	IN3B_On();
 	IN4B_Off();	
-	
+	spin_counter=0;
 	LED_RIGHT_BACKWARD_On();
 	LED_RIGHT_FORWARD_On();
 	
@@ -240,17 +246,21 @@ void turn_right(uint32_t maneuver){
 	
 	if(maneuver == 0){
 			//This corresponds to test maneuver
-		for(;temp<500000;temp++){
-			if((temp/10000)%2==0){
-				LED_RIGHT_FORWARD_On();
-				LED_RIGHT_BACKWARD_On();
-			}
-			else{
-				LED_RIGHT_FORWARD_Off();
-				LED_RIGHT_BACKWARD_Off();
+		while(spin_counter<11){
+			//This corresponds to test maneuver
+			for(;temp<500000;temp++){
+				if((temp/100000)%2==0){
+					LED_RIGHT_FORWARD_Off();
+					LED_RIGHT_BACKWARD_Off();
+				}
+				else{
+					LED_RIGHT_FORWARD_On();
+					LED_RIGHT_BACKWARD_On();
+				}
 			}
 		}
 		stop();
+		spin_counter=0;
 	}else if(maneuver == 1){
 		IN1A_On();
 		IN2A_On();

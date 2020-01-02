@@ -10,3 +10,4 @@
 .\objects\gpio.o: C:\Users\kaano\AppData\Local\Arm\Packs\Keil\LPC4000_DFP\2.1.0\Device\Include\system_LPC407x_8x_177x_8x.h
 .\objects\gpio.o: Library\PWM.h
 .\objects\gpio.o: Library\SystemStructures.h
+.\objects\gpio.o: Library\External.h

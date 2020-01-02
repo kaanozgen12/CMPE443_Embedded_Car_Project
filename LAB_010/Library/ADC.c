@@ -23,7 +23,7 @@ void ADC_Init() {
 	
 	//Change the function value of pin to ADC.
 	ANALOG_PIN_IOCON_LEFT &= ~(7);
-	ANALOG_PIN_IOCON_LEFT |= 1;
+	ANALOG_PIN_IOCON_LEFT |= 3;
 	
 	//Change the mode value of pin to mode which should be selected if Analog mode is used.
 	ANALOG_PIN_IOCON_LEFT &= ~(3<<3);
@@ -53,7 +53,7 @@ void ADC_Init() {
 	ADC->CR |= 1<<0;
 	
 	//Enable interrupt for corresponding pin.
-	ADC->INTEN |= 1<<3;
+	ADC->INTEN |= 1<<4;
 	ADC->INTEN |= 1<<2;
 	//ADC->INTEN |= 1<<1;Burasi artik ultrasonic için
 	ADC->INTEN |= 1<<0;
@@ -89,19 +89,19 @@ void ADC_IRQHandler() {
 	//Write the converted data (only the converted data) to ADC_	
 	if((ADC->CR & 1<<24) == 0){
 		ADC->CR |= 1<<24;
-		counter = (counter+1)%4;
+		counter = (counter+1)%3;
 	}
 	
-	if(counter == 3){
-		ADC_Left = ADC->DR[counter]>>4 & 0xFFF;
-	}else if(counter == 2){
-		ADC_Right = ADC->DR[counter]>>4 & 0xFFF;
+	if(counter == 2){
+		ADC_Left = ADC->DR[counter*2]>>4 & 0xFFF;
+	}else if(counter == 1){
+		ADC_Right = ADC->DR[counter*2]>>4 & 0xFFF;
 	}else if(counter == 0){
-		ADC_Potans = ADC->DR[counter]>>4 & 0xFFF;
+		ADC_Potans = ADC->DR[counter*2]>>4 & 0xFFF;
 	}
 		
 	ADC->CR &= ~(0xFF);
-	ADC->CR |= 1<<((counter+1)%4);
+	ADC->CR |= 1<<(((counter+1)%3)*2);
 	
 	
 	

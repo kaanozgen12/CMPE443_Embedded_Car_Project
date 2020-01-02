@@ -18,3 +18,4 @@
 .\objects\main.o: Library/PWM.h
 .\objects\main.o: Library/Ultrasonic.h
 .\objects\main.o: Library/LED.h
+.\objects\main.o: Library/External.h
