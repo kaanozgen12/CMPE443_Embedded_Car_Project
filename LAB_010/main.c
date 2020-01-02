@@ -144,19 +144,27 @@ char temp;
 void update() {
 	
 	distance = ultrasonic_get_distance();
-	if(distance >= 400){
-	distance = previous_distance;
-	}
+		if(distance >= 400 || distance == 0){
+		distance = previous_distance;
+		}
 	previous_distance = distance;
-	if (distance <10){
-		EMBEDLED_ALL_Off();
-		EMBEDLED1_On();
-		EMBEDLED3_On();
-		if(AUTO_MODE)
-			turn_right(1);
-	}else{
-		EMBEDLED_ALL_Off();
-	}
+		if (distance <10){
+			if(AUTO_MODE){
+				PWM_Write(40,1);
+				PWM_Write(40,2);
+				turn_right(1);
+			}
+		}else if((distance >15)){
+			if(AUTO_MODE){
+				PWM_Write(40,1);
+				PWM_Write(40,2);
+				turn_left(1);
+			}
+		}else{
+				PWM_Write(100,1);
+				PWM_Write(100,2);
+				go_forward();
+		}
 	
 	potans_value = ADC_GetPotans();
 	
